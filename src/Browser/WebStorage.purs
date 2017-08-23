@@ -15,11 +15,11 @@ module Browser.WebStorage
   ) where
 
   import Prelude
-  import Control.Monad.Eff (Eff)
+  import Control.Monad.Eff (Eff, kind Effect)
   import Data.Maybe (Maybe(..))
   import Data.Function.Uncurried (Fn3, Fn2, runFn3, runFn2)
 
-  foreign import data WebStorage :: !
+  foreign import data WebStorage :: Effect
   type EffWebStorage eff = Eff (webStorage :: WebStorage | eff)
 
   class Storage s where
@@ -46,8 +46,8 @@ module Browser.WebStorage
     removeItem _ k = runFn2 unsafeRemoveItem sessionStorage k
     clear _ = unsafeClear sessionStorage
 
-  foreign import data LocalStorage :: *
-  foreign import data SessionStorage :: *
+  foreign import data LocalStorage :: Type
+  foreign import data SessionStorage :: Type
 
   foreign import localStorage :: LocalStorage
   foreign import sessionStorage :: SessionStorage
